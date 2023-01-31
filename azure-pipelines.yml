@@ -12,22 +12,25 @@ pool:
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
-- task: SnykSecurityScan@1
-  inputs:
-    serviceConnectionEndpoint: 'Snyk'
-    testType: 'app'
-    monitorWhen: 'always'
-    failOnIssues: false
-    projectName: 'Shikshitha'
-    organization: 'shikshitha'
+
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+
+- task: DockerInstaller@0
+  inputs:
+   dockerVersion: '17.09.0-ce'
 - task: CmdLine@2
   inputs:
-    script: |
-      package.json auth 71c6ddb3-03b5-4fd5-bcf2-93616567aaa0
-      package.json config set org=shikshitha
-      package.json code test --report --json | snyk-to-html-package.json -o results.html
-      package.json monitor --org=shikshitha
+   script: 'docker pull spring-boot-mongo'
+- task: SnykSecurityScan@1
+  inputs:
+   serviceConnectionEndpoint: 'shikshitha'
+   testType: 'container'
+   dockerImageName: 'spring-boot-mongo'
+   monitorWhen: 'always'
+   failOnIssues: false
+   projectName: 'Shikshitha'
+   organization: 'shikshitha'
