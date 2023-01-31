@@ -1,0 +1,33 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+- task: SnykSecurityScan@1
+  inputs:
+    serviceConnectionEndpoint: 'Snyk'
+    testType: 'app'
+    monitorWhen: 'always'
+    failOnIssues: false
+    projectName: 'Shikshitha'
+    organization: 'shikshitha'
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+- task: CmdLine@2
+  inputs:
+    script: |
+      snyk-win.exe auth 71c6ddb3-03b5-4fd5-bcf2-93616567aaa0
+      snyk-win.exe config set org=shikshitha
+      snyk-win.exe code test --report --json | snyk-to-html-win.exe -o results.html
+      snyk-win.exe monitor --org=shikshitha
