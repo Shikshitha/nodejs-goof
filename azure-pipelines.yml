@@ -4,33 +4,21 @@
 # https://aka.ms/yaml
 
 trigger:
-- develop
+- master
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: |
+     sudo npm install -g snyk
+     sudo npm install -g snyk-to-html
+     sudo snyk auth $(SNYK_TOKEN)
+  displayName: 'install snyk'
+  continueOnError: true
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
-
-- task: DockerInstaller@0
-  inputs:
-   dockerVersion: '17.09.0-ce'
-- task: CmdLine@2
-  inputs:
-   script: 'docker pull chandra635313/spring-boot-mongo'
-- task: SnykSecurityScan@1
-  inputs:
-   serviceConnectionEndpoint: 'shikshitha'
-   testType: 'container'
-   dockerImageName: 'chandra635313/spring-boot-mongo'
-   monitorWhen: 'always'
-   failOnIssues: false
-   projectName: 'Shikshitha'
-   organization: 'shikshitha'
