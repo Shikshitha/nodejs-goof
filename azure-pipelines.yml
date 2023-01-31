@@ -33,4 +33,4 @@ steps:
    monitorWhen: 'always'
    failOnIssues: false
    projectName: 'Shikshitha'
-   organization: 'shikshitha'
+   organization: 'shikshitha'
