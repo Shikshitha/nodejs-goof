@@ -27,7 +27,7 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      snyk-win.exe auth 71c6ddb3-03b5-4fd5-bcf2-93616567aaa0
-      snyk-win.exe config set org=shikshitha
-      snyk-win.exe code test --report --json | snyk-to-html-win.exe -o results.html
-      snyk-win.exe monitor --org=shikshitha
+      package.json auth 71c6ddb3-03b5-4fd5-bcf2-93616567aaa0
+      package.json config set org=shikshitha
+      package.json code test --report --json | snyk-to-html-package.json -o results.html
+      package.json monitor --org=shikshitha
