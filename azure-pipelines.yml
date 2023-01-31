@@ -9,16 +9,16 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: |
-     sudo npm install -g snyk
-     sudo npm install -g snyk-to-html
-     sudo snyk auth $(SNYK_TOKEN)
-  displayName: 'install snyk'
-  continueOnError: true
-
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+- task: SnykSecurityScan@1
+  inputs:
+    serviceConnectionEndpoint: 'Snyk'
+    testType: 'app'
+    monitorWhen: 'always'
+    failOnIssues: true
+    additionalArguments: 'sudo npm install -g snyk    sudo npm install -g snyk-to-html'
 
